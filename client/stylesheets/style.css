@@ -1,0 +1,215 @@
+/*
+    Things to note:
+    - the selectors are generally in order according to the structural page
+    - 'body' tag appears before 'header', which itself is before 'main'
+    - also, header and main tags could have been joined into one ruleset that
+      stated background is white... but since these areas will potentially 
+      have different styling, they have been separated. But if it was known
+      right from the start that these would have similar stylings then they
+      would have been combined here instead!
+
+*/
+
+
+/* default tags - structural order */
+
+a {
+    color: red;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+}
+
+body {
+    background: #f9e933;
+    /* set the base font, and everything in relation to this */
+    font-size: 100%;
+    font-family: 'Droid Sans', sans-serif;
+    line-height: 1.3em;
+}
+
+header {
+    background: white;
+    overflow: auto;
+    padding: 3em 0 3em 0;
+}
+
+header h1.logo {
+    font-size: 3em;
+}
+
+header .container, main .container, footer .container {
+    max-width: 855px;
+    margin: auto;
+}
+
+header h1, main .container .left, footer .container .contact {
+    float: left;
+    width: 570px;
+}
+
+header nav, main .container .right, footer .container .sitemap {
+    float: right;
+    width: 285px;
+}
+
+header, main {
+    border-bottom: 2px solid #eee;
+}
+
+main .container .right img {
+    height: 250px;
+    margin-left: 1.5em;
+}
+
+main, footer {
+    padding-top: 2em;
+    padding-bottom: 2em;
+    min-width: 855px;
+}
+
+main {
+    background: white;
+    overflow: hidden;
+    /* to solve safari issue */
+    display: block;
+}
+
+main h2 {
+    font-size: 2em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+main h3 {
+    padding-top: 1em;
+    padding-bottom: 0.5em;
+}
+
+main .tabs a span {
+    display: inline-block;
+    border-radius: 5px 5px 0px 0px;
+    width: 100px;
+    margin-right: 10px;
+    text-align: center;
+    background-color: #ddd;
+    padding: 5px;
+}
+
+main .tabs a span.active {
+    background: #eee;
+}
+
+main .content {
+    background: #eee;
+    padding: 10px;
+}
+
+main .content .form {
+    display: inline-block;
+}
+
+main .content .form > div {
+    /*background-color: #eeffff;*/
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+main .content .form div:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+main .content .form div:nth-last-child(2) {
+    padding-bottom: 15px;
+    
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+main .content .form div:last-child {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    border-radius: 4px;
+}
+
+main .content li {
+    padding: 4px;
+    border-radius: 4px;
+    margin-top: 10px;
+    background-color: #eeffff;
+}
+
+main .content input {
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: medium;
+    width: 260px;
+    font-weight: normal;
+    
+    height: 28px;
+    padding: 0px 4px 0 4px;
+}
+
+main .content button {
+    background-color: #ccc;
+    border-width: 0px;
+    font-size: medium;
+    margin-left: 1px;
+    border-radius: 4px;
+    height: 30px;
+    width: 270px;
+}
+
+main .content button:hover {
+    cursor: pointer;
+}
+
+footer {
+    /* to help ensure that the "empty" parent (due to the float being taken out of the flow),
+    encompasses the floating elements */
+    overflow: auto;
+}
+
+footer h5 {
+    padding-bottom: 1em;
+}
+
+footer p, footer a {
+    font-size: small;
+}
+
+
+/* NOTE:- nth child refers to the 2 element in the parent of 'ul' here....
+   which happens to be the 1st ul!!! */
+
+footer ul:nth-child(2) {
+    float: left;
+    width: 140px;
+}
+
+
+/* this will take this to the far right, which we don't want*/
+
+
+/*footer ul:nth-child(3) {
+    float: right;
+}*/
+
+
+/* general tags */
+
+.logo {
+    color: #b33;
+    font-style: italic;
+}
