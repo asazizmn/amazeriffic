@@ -17,10 +17,10 @@ var main = function (todoObjects) {
      * and returns a modified structure which is organised by tags
      */
     var organizeByTag = function () {
-        
+
         // create array of unique tags to be uses as intermediary
         var tags = [];
-        
+
         // create array of unique tags to be uses as intermediary
         todoObjects.forEach(function (toDo) {
             toDo.tags.forEach(function (tag) {
@@ -29,19 +29,19 @@ var main = function (todoObjects) {
                 }
             });
         });
-        
+
         // for every tag, search and create array of associated todos
         var tagObjects = tags.map(function (tag) {
             var tagTodos = [];
             todoObjects.forEach(function (todoObject) {
                 if (todoObject.tags.indexOf(tag) !== -1) {
                     tagTodos.push(todoObject.description);
-                } 
+                }
             });
 
-            return {name: tag, todos: tagTodos};
+            return { name: tag, todos: tagTodos };
         });
-        
+
         return tagObjects;
     };
 
@@ -134,24 +134,24 @@ var main = function (todoObjects) {
             } else if ($element.parent().is(':nth-child(4)')) {
 
                 // add DOM elements ...
-                
+
                 // description
                 $inputLabelDesc = $('<h3>').text('Description');
                 $inputDesc = $('<input>');
                 $wrapperDesc = $('<div>').append($inputLabelDesc).append($inputDesc);
-                
+
                 // tags
                 $inputLabelTags = $('<h3>').text('Tags');
                 $inputTags = $('<input>');
                 $wrapperTags = $('<div>').append($inputLabelTags).append($inputTags);
-                
+
                 // button
                 $button = $('<button>').text('Add Note');
                 $wrapperBtn = $('<div class="wrapperBtn">').append($button);
-                
+
                 // form
                 $content = $('<div class="form">').append($wrapperDesc).append($wrapperTags).append($wrapperBtn);
-                
+
 
                 /*
                  *   Function: extracts value from description input and adds to todos model,
@@ -160,19 +160,31 @@ var main = function (todoObjects) {
                 add_note = function () {
                     var desc = $inputDesc.val();
                     var tags = $inputTags.val().split(',');
-                    
+
                     if (desc !== '') {
-                        todoObjects.push({description:desc, tags:tags});
+                        todoObjects.push({ description: desc, tags: tags });
+
+                        // send post request to the server
+                        // 1st arg - request url
+                        // 2nd arg - data object
+                        // 3rd arg - response callback
+                        $.post("todo", {}, function (res) {
+
+                            // this callback is called when the server responds
+                            console.log('We posted and the server responded with the following:');
+                            console.log(res);
+                        });
+
                         todos = todoObjects.map(function (todo) {
                             return todo.description;
                         });
-                    
+
                         $inputDesc.val('');
                         $inputTags.val('');
                     }
                 };
-                
-                
+
+
                 // please note that 'direct' event handlers using selectors won't work 
                 // because the respective elements don't exist in dom yet
                 // $('main .content button').on('click', function (event) {
@@ -214,6 +226,9 @@ var main = function (todoObjects) {
 // however, practically speaking, the same result would be achieved by
 // moving the getJSON method call to within main
 $(document).ready(function () {
+
+    // this is no longer accessing todos.json
+    // but rather it will invoke the node express route for '/todos.json'
     $.getJSON("todos.json", function (todoObjects) {
         main(todoObjects);
     });
