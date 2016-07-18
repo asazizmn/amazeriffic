@@ -1,7 +1,11 @@
 // variables setup (as per recommended practise)
 // and necessary module imports
 var express = require('express'),
-	http = require('http'),
+	http = require('http'),	
+	
+	// body-parser required since express version 4
+	// it is required to allow for automatic conversion of json to js objects
+	bodyParser = require('body-parser'),
 	app = express(),
 
 	// this will allow object persistence 
@@ -37,6 +41,10 @@ var express = require('express'),
 // set up static file directory to allow direct resrc serving
 app.use(express.static(__dirname + '/client'));
 
+// make express parse all incoming JSON objects
+app.use(bodyParser.urlencoded({extended:true}));
+
+
 //
 // set up routes to respond with requests
 //
@@ -49,7 +57,12 @@ app.get('/todos.json', function (req, res) {
 
 // handle post request from client
 app.post('/todo', function (req, res) {
-	console.log('data has been posted to the server!');
+	
+	// req.body can now be used as a result of express.urlencoded addition above
+	var todo = req.body;
+	todos.push(todo);
+
+	//console.log(todo);
 
 	// send back a simple message
 	res.json({ "message": "You posted to the server!" });

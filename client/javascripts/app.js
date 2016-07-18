@@ -174,7 +174,7 @@ var main = function (todoObjects) {
                         $.post("todo", todo, function (res) {
 
                             // this callback is called when the server responds
-                            console.log('We posted and the server responded with the following:');
+                            console.log('posted todo object [' + todo +  '] to the server and it responded with the following:');
                             console.log(res);
                         });
 
