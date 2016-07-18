@@ -7,8 +7,8 @@ var main = function (todoObjects) {
      *  please note that, although technically this could be moved to within the scope where
      *  the click handler is being attached... this being a model, deserves to be here instead 
      */
-    var todos = todoObjects.map(function (todo) {
-        return todo.description;
+    var todos = todoObjects.map(function (todoObject) {
+        return todoObject.description;
     });
 
 
@@ -22,8 +22,8 @@ var main = function (todoObjects) {
         var tags = [];
 
         // create array of unique tags to be uses as intermediary
-        todoObjects.forEach(function (toDo) {
-            toDo.tags.forEach(function (tag) {
+        todoObjects.forEach(function (todoObject) {
+            todoObject.tags.forEach(function (tag) {
                 if (tags.indexOf(tag) === -1) {
                     tags.push(tag);
                 }
@@ -158,25 +158,28 @@ var main = function (todoObjects) {
                  *   and then empties the input for further input readiness
                  */
                 add_note = function () {
-                    var desc = $inputDesc.val();
-                    var tags = $inputTags.val().split(',');
+                    var desc = $inputDesc.val(),
+                        tags = $inputTags.val().split(','),
+                        
+                        // create new to do
+                        todo = {description: desc, tags: tags};
 
                     if (desc !== '') {
-                        todoObjects.push({ description: desc, tags: tags });
+                        todoObjects.push(todo);
 
                         // send post request to the server
                         // 1st arg - request url
                         // 2nd arg - data object
                         // 3rd arg - response callback
-                        $.post("todo", {}, function (res) {
+                        $.post("todo", todo, function (res) {
 
                             // this callback is called when the server responds
                             console.log('We posted and the server responded with the following:');
                             console.log(res);
                         });
 
-                        todos = todoObjects.map(function (todo) {
-                            return todo.description;
+                        todos = todoObjects.map(function (todoObject) {
+                            return todoObject.description;
                         });
 
                         $inputDesc.val('');
