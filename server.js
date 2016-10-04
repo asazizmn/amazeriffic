@@ -1,4 +1,4 @@
-// variables setup (as per recommended practise)
+// variables setup (as per recommended practice)
 // and necessary module imports
 var express = require('express'),
 	http = require('http'),	
