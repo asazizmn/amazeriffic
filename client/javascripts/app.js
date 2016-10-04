@@ -21,7 +21,7 @@ var main = function (todoObjects) {
         // create array of unique tags to be uses as intermediary
         var tags = [];
 
-        // create array of unique tags to be uses as intermediary
+        // create array of unique tags to be used as intermediary
         todoObjects.forEach(function (todoObject) {
             todoObject.tags.forEach(function (tag) {
                 if (tags.indexOf(tag) === -1) {
