@@ -88,17 +88,15 @@ app.post('/todo', function (req, res) {
 			
 			// return ALL the todos to match old client
 			Todo.find({}, function (err, result) {
-				if (err) res.send("ERROR");
-				res.json(result);
-			})
+				if (err) {
+					console.log(err);
+					res.send('ERROR');
+				} else {
+					res.json(result);
+				}
+			});
 		}
-	})
-
-	// also save it in the database
-	
-
-	// send back a simple message
-	res.json({ "message": "You posted to the server!" });
+	});
 });
 
 
