@@ -1,12 +1,15 @@
 // variables setup (as per recommended practice)
 // and necessary module imports
 var express = require('express'),
-	http = require('http'),	
-	
-	// body-parser required since express version 4
-	// it is required to allow for automatic conversion of json to js objects
-	bodyParser = require('body-parser'),
 	app = express(),
+	http = require('http'),
+	mongoose = require('mongoose'),
+	
+	// required to allow for automatic conversion of json to js objects
+	bodyParser = require('body-parser'),
+
+	Todo = require('./models/ToDo'),
+
 
 	// this will allow object persistence 
 	// as apposed to when just using todos.json
@@ -44,6 +47,8 @@ app.use(express.static(__dirname + '/client'));
 // make express parse all incoming JSON objects
 app.use(bodyParser.urlencoded({extended:true}));
 
+mongoose.connect('mongodb://localhost/amazeriffic');
+
 
 //
 // set up routes to respond with requests
@@ -51,18 +56,46 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // handle get request from client requesting for todos json
 app.get('/todos.json', function (req, res) {
-	// note use of 'json' method, instead of 'send'
-	res.json(todos);
+
+	// but find the todos from the database and return them instead
+	Todo.find({}, function (err, todos) {
+		if (err) console.log(err);
+		res.json(todos);
+	});
 });
 
 // handle post request from client
 app.post('/todo', function (req, res) {
-	
-	// req.body can now be used as a result of express.urlencoded addition above
-	var todo = req.body;
+
+	// create new todo object using mongoose based model
+	var todo = new Todo({
+		description: req.body.description,
+		tags: req.body.tags
+	});
+
+	// show todo in the view
 	todos.push(todo);
 
-	//console.log(todo);
+	todo.save(function (err, result) {
+		
+		// unsuccessful save
+		if ( err ) {
+			console.log(err);
+			res.send('ERROR');
+
+		// successful save
+		} else {
+			
+			// return ALL the todos to match old client
+			Todo.find({}, function (err, result) {
+				if (err) res.send("ERROR");
+				res.json(result);
+			})
+		}
+	})
+
+	// also save it in the database
+	
 
 	// send back a simple message
 	res.json({ "message": "You posted to the server!" });
