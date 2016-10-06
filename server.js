@@ -8,7 +8,7 @@ var express = require('express'),
 	// required to allow for automatic conversion of json to js objects
 	bodyParser = require('body-parser'),
 
-	Todo = require('./models/ToDo'),
+	Todo = require('./models/Todo'),
 
 
 	// this will allow object persistence 
